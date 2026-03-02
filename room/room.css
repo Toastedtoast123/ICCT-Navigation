@@ -44,7 +44,6 @@ header{
     line-height: 1;
 }
 
-
 #menu-toggle {
     display: none;
 }
@@ -120,17 +119,74 @@ nav ul li a:hover::after{
 }
 
 .room-list {
-    flex: 0 0 180px;
+    position: fixed;
+    bottom: 20px;
+    left: 50%;
+    transform: translateX(-50%);
     display: flex;
-    flex-direction: column;
+    flex-direction: row;
     gap: 0.5rem;
     padding: 1rem;
     background-color: #1a1a1a;
-    height: 90vh;
-    overflow-y: auto;
-    position: sticky;
-    top: 0;
-    border-right: 1px solid #27272d;
+    height: auto;
+    overflow-x: auto;
+    overflow-y: hidden;
+    z-index: 100;
+    border-radius: 15px;
+    border: 1px solid #27272d;
+    max-width: 90vw;
+    align-items: center;
+}
+
+.controls-container {
+    position: fixed;
+    top: 110px;
+    left: 50%;
+    transform: translateX(-50%);
+    display: flex;
+    flex-direction: row;
+    gap: 0.5rem;
+    padding: 0.75rem 1rem;
+    background-color: #1a1a1a;
+    height: auto;
+    z-index: 100;
+    border-radius: 15px;
+    border: 1px solid #27272d;
+    max-width: 90vw;
+    align-items: center;
+    flex-wrap: wrap;
+    justify-content: center;
+    font-size: 16px;
+}
+
+.controls-container #fromInput,
+.controls-container #toInput {
+    width: 160px;
+    padding: 8px;
+    margin: 0;
+    box-sizing: border-box;
+    border: 1px solid #ccc;
+    border-radius: 10px;
+    background-color: #27272d;
+    color: #fff;
+}
+
+.controls-container .btn {
+    padding: 8px 12px;
+    margin: 0;
+}
+
+.controls-container .info {
+    margin: 0;
+    padding: 0 0.5rem;
+}
+
+.room-list .controls {
+    display: flex;
+    flex-direction: row;
+    gap: 0.5rem;
+    margin-right: 0;
+    align-items: center;
 }
 
 strong {
@@ -200,6 +256,14 @@ strong {
     color: #0d0d0d;
     transform: translateY(-2px);
     box-shadow: 0 4px 8px rgba(44, 212, 217, 0.2);
+}
+
+.room-button.active {
+    background-color: #2cd4d9;
+    color: 0d0d0d;
+    transform: translateY(-2px);
+    box-shadow:  0 4px 8px rgba(44, 212, 217, 0.2);
+    border-color: #2cd4d9;
 }
 
 a.room-button,
@@ -287,11 +351,46 @@ h1 {
         gap: 0.75rem;
     }
     .room-list {
-        flex: 0 0 150px; 
+        display: flex;
+        flex-direction: row;
+        position: fixed;
+        bottom: 0;
+        left: 50%;
+        width: 100%;
+        height: auto;
+        z-index: 100;
+        background-color: #1a1a1a;
         padding: 0.75rem;
+        overflow-x: auto;
+        overflow-y: hidden;
+        gap: 0.5rem;
+        justify-content: center;
+        scroll-snap-type: x mandatory;
+        -webkit-overflow-scrolling: touch;
+        border-top: 1px solid #27272d;
+    }
+    .controls-container {
+        display: block;
+        width: auto;
+        padding: 0.75rem;
+        font-size: 16px;
+        
+    }
+    .controls-container #fromInput,
+    .controls-container #toInput {
+        width: 100%;
+        margin-bottom: 0.5rem;
+    }
+    .controls-container .btn {
+        width: 100%;
+        margin: 0.25rem 0;
     }
     .map-container {
         width: 70%;
+        padding-bottom: 100px;
+    }
+    .btn{
+        display: none;
     }
     .btn-search, .btn-reset {
         font-size: 1rem;
@@ -302,7 +401,7 @@ h1 {
         font-size: 1rem;
     }
     .info {
-        font-size: 13px;
+        display: none;
     }
 }
 
@@ -348,16 +447,74 @@ h1 {
         height: 100vh;
     }
     .room-list {
-        position: absolute;
-        top: 0;
-        left: 0;
-        width: 70%;
-        height: 100vh;
-        z-index: 5;
-        background-color: rgba(26, 26, 26, 0.95);
-        border-right: none;
-        padding: 1rem;
-        overflow-y: auto;
+        display: flex;
+        flex-direction: row;
+        position: fixed;
+        bottom: 0;
+        left: 50%;
+        transform: translateX(-50%);
+        width: 100%;
+        max-width: 100%;
+        height: auto;
+        min-height: 60px;
+        z-index: 100;
+        background-color: #1a1a1a;
+        padding: 0.75rem;
+        overflow-x: auto;
+        overflow-y: hidden;
+        gap: 0.5rem;
+        justify-content: flex-start;
+        align-items: center;
+        scroll-snap-type: x mandatory;
+        -webkit-overflow-scrolling: touch;
+        border-top: 1px solid #27272d;
+    }
+    .room-list::-webkit-scrollbar {
+        height: 6px;
+        display: none;
+    }
+    .room-list::-webkit-scrollbar-track {
+        background: #1a1a1a;
+        display: none;
+    }
+    .room-list::-webkit-scrollbar-thumb {
+        background: #2cd4d9;
+        border-radius: 3px;
+        display: none;
+    }
+    .room-list .room-button {
+        flex: 0 0 auto;
+        min-width: 70px;
+        min-height: 44px;
+        padding: 0.6rem 1rem;
+        margin: 0;
+        scroll-snap-align: center;
+        font-size: 0.95rem;
+        white-space: nowrap;
+    }
+    .controls-container {
+        z-index: 2;
+        display: flex;
+        flex-wrap: wrap;
+        width: auto;
+        padding: 0.5rem;
+        top: 100px;
+        left: 50%;
+        transform: translateX(-50%);
+        gap: 0.4rem;
+        justify-content: center;
+    }
+    .controls-container #fromInput,
+    .controls-container #toInput {
+        width: 130px;
+        margin-bottom: 0;
+        padding: 6px 8px;
+        font-size: 0.9rem;
+    }
+    .controls-container .btn {
+        width: auto;
+        margin: 0;
+        padding: 6px 10px;
     }
     .map-container {
         position: absolute;
@@ -372,16 +529,14 @@ h1 {
         width: 100%;
         height: 100%;
     }
-    .btn-search, .btn-reset {
-        width: 100%;
-        margin: 0.25rem 0;
+    .btn{
+        display: none;
     }
-    .room-button {
-        width: 100%;
-        margin: 0.25rem 0;
+    .btn-search, .btn-reset {
+        display: flex;
     }
     .info {
-        font-size: 12px;
+        display: none;
     }
     input[type="text"] {
         width: 100%;
@@ -406,14 +561,76 @@ h1 {
     #menu-toggle:checked + .hamburger + ul {
         right: 0;
     }
-    /* .room-list {
-        width: 80%;
-        padding: 0.5rem;
-        max-height: 100vh;
-    } */
     .room-list {
-        width: 25%;
-        max-height: 100%;    
+        display: flex;
+        flex-direction: row;
+        position: fixed;
+        bottom: 0;
+        left: 50%;
+        transform: translateX(-50%);
+        width: 100%;
+        max-width: 100%;
+        height: auto;
+        min-height: 55px;
+        z-index: 100;
+        background-color: #1a1a1a;
+        padding: 0.75rem;
+        overflow-x: auto;
+        overflow-y: hidden;
+        gap: 0.5rem;
+        justify-content: flex-start;
+        align-items: center;
+        scroll-snap-type: x mandatory;
+        -webkit-overflow-scrolling: touch;
+        border-top: 1px solid #27272d;
+    }
+    .room-list::-webkit-scrollbar {
+        height: 5px;
+        display: none;
+    }
+    .room-list::-webkit-scrollbar-track {
+        background: #1a1a1a;
+        display: none;
+    }
+    .room-list::-webkit-scrollbar-thumb {
+        background: #2cd4d9;
+        border-radius: 3px;
+        display: none;
+    }
+    .room-list .room-button {
+        flex: 0 0 auto;
+        min-width: 60px;
+        min-height: 40px;
+        padding: 0.5rem 0.75rem;
+        margin: 0;
+        scroll-snap-align: center;
+        font-size: 0.85rem;
+        white-space: nowrap;
+    }
+    .controls-container {
+        z-index: 2;
+        display: flex;
+        flex-wrap: wrap;
+        width: auto;
+        padding: 0.5rem;
+        top: 100px;
+        left: 50%;
+        transform: translateX(-50%);
+        gap: 0.4rem;
+        justify-content: center;
+
+    }
+    .controls-container #fromInput,
+    .controls-container #toInput {
+        width: 110px;
+        margin-bottom: 0;
+        padding: 5px 6px;
+        font-size: 0.85rem;
+    }
+    .controls-container .btn {
+        width: auto;
+        margin: 0;
+        padding: 5px 8px;
     }
     #fromInput{
         width: 100%;
@@ -438,12 +655,14 @@ h1 {
         width: 100%;
         height: 100%;
     }
+    .btn{
+        display: none;
+    }
     .btn-search, .btn-reset, .room-button {
-        font-size: 1rem;
-        padding: 0.75rem;
+        display: flex;
     }
     .info {
-        font-size: 11px;
+        display: none;
     }
 }
 
@@ -470,8 +689,72 @@ h1 {
         right: 0;
     }
     .room-list {
-        width: 25%;
-        max-height: 100%;    
+        display: flex;
+        flex-direction: row;
+        position: fixed;
+        bottom: 0;
+        left: 50%;
+        transform: translateX(-50%);
+        width: 100%;
+        max-width: 100%;
+        height: auto;
+        min-height: 50px;
+        z-index: 100;
+        background-color: #1a1a1a;
+        padding: 0.75rem;
+        overflow-x: auto;
+        overflow-y: hidden;
+        gap: 0.5rem;
+        justify-content: flex-start;
+        align-items: center;
+        scroll-snap-type: x mandatory;
+        -webkit-overflow-scrolling: touch;
+        border-top: 1px solid #27272d;
+    }
+    .room-list::-webkit-scrollbar {
+        height: 4px;
+    }
+    .room-list::-webkit-scrollbar-track {
+        background: #1a1a1a;
+    }
+    .room-list::-webkit-scrollbar-thumb {
+        background: #2cd4d9;
+        border-radius: 2px;
+    }
+    .room-list .room-button {
+        flex: 0 0 auto;
+        min-width: 55px;
+        min-height: 38px;
+        padding: 0.4rem 0.6rem;
+        margin: 0;
+        scroll-snap-align: center;
+        font-size: 0.8rem;
+        white-space: nowrap;
+    }
+    .controls-container {
+        z-index: 2;
+        display: flex;
+        flex-wrap: wrap;
+        width: auto;
+        padding: 0.4rem;
+        top: 100px;
+        left: 50%;
+        transform: translateX(-50%);
+        gap: 0.35rem;
+        justify-content: center;
+        font-size: 16px;
+    }
+    .controls-container #fromInput,
+    .controls-container #toInput {
+        width: 100px;
+        margin-bottom: 0;
+        padding: 4px 5px;
+        font-size: 0.8rem;
+    }
+    .controls-container .btn {
+        width: auto;
+        margin: 0;
+        padding: 4px 6px;
     }
     #fromInput{
         width: 100%;
@@ -489,12 +772,18 @@ h1 {
         border: 1px solid #ccc;
         border-radius: 10px;
     }
+    .btn{
+        display: none;
+    }
     .map-container {
         height: 100vh;
     }
     #viewer {
         width: 100%;
         height: 100%;
+    }
+    .info {
+        display: none;
     }
 }
 

@@ -86,10 +86,13 @@ function highlightConnectionPoints() {
 const controls = new THREE.OrbitControls(camera, renderer.domElement);
 controls.enableDamping = true;
 controls.dampingFactor = 0.05;
-controls.screenSpacePanning = false;
+controls.enableRotate = false;
+controls.enablePan = true;
+controls.screenSpacePanning = true;
 controls.minDistance = 1;
 controls.maxDistance = 500;
 controls.maxPolarAngle = Math.PI / 2;
+controls.mouseButtons = { LEFT: THREE.MOUSE.PAN, MIDDLE: THREE.MOUSE.DOLLY, RIGHT: THREE.MOUSE.ROTATE };
 
 function animate() {
     requestAnimationFrame(animate);
@@ -113,9 +116,9 @@ const graph = {
     'Hallway3': ['Hallway2', 'Hallway4', 'School lounge', 'Drugtest'],
     'Hallway4': ['Hallway3', 'Hallway4a', 'Hallway4c','Hallway5'],
     'Hallway4a': ['Hallway4', 'Hallway4b'],
-    'Hallway4b': ['Hallway4a', 'B4.down'],
+    'Hallway4b': ['Hallway4a', 'B4.down', 'Elevator'],
     'Hallway4c': ['Hallway4', 'Hallway4d'],
-    'Hallway4d': ['Hallway4c', 'B4.up'],
+    'Hallway4d': ['Hallway4c', 'B4.up', 'Elevator'],
     'Hallway5': ['Hallway4', 'Hallway6', 'Hallway7'],
     'Hallway6': ['Hallway5', 'Criminology lab2'],
     'Hallway7': ['Hallway5', 'Hallway7a','Hallway8'],
@@ -142,6 +145,7 @@ const graph = {
     'B4.down': ['Hallway4b'],
     'B2.up': ['Hallway11a'],
     'B2.down': ['Hallway7a'],
+    'Elevator': ['Hallway4b', 'Hallway4d'],
     'Criminology lab1': ['Hallway8'],
     'Criminology lab2': ['Hallway6'],
     'Engineering lab': ['Hallway10'],
@@ -193,6 +197,7 @@ const connectionPoints = {
     'B2.down': { x: 30, y: 0, z: -12 },
     'B4.up': { x: -30, y: 0, z: -12 },
     'B4.down': { x: -155, y: 0, z: -12 },
+    'Elevator': { x: -100, y: 0, z: -16 },
     'Criminology lab1': { x: 90, y: 0, z: -27 },
     'Criminology lab2': { x: 12, y: 0, z: -70 },
     'Engineering lab': { x: 110, y: 0, z: -27 },

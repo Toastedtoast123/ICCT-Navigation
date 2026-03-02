@@ -86,10 +86,13 @@ function highlightConnectionPoints() {
 const controls = new THREE.OrbitControls(camera, renderer.domElement);
 controls.enableDamping = true;
 controls.dampingFactor = 0.05;
-controls.screenSpacePanning = false;
+controls.enableRotate = false;
+controls.enablePan = true;
+controls.screenSpacePanning = true;
 controls.minDistance = 1;
 controls.maxDistance = 500;
 controls.maxPolarAngle = Math.PI / 2;
+controls.mouseButtons = { LEFT: THREE.MOUSE.PAN, MIDDLE: THREE.MOUSE.DOLLY, RIGHT: THREE.MOUSE.ROTATE };
 
 function animate() {
     requestAnimationFrame(animate);
